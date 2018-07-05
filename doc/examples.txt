@@ -1,0 +1,31 @@
+http://localhost:9090/demo/api/order/list
+
+http://localhost:9090/demo/api/order/create
+Content-Type application/json
+{
+    "order": {
+        "description": "New Order",
+        "employee": "Wolkewietje",
+        "customer": "Google",
+        "orderDetails": [
+            {
+                "productCode": "AA-Z61",
+                "description": "Pencilset",
+                "price": 1.69,
+                "amount": 12
+            },
+            {
+                "productCode": "AA-D67",
+                "description": "LanguageCourse",
+                "price": 21.95,
+                "amount": 1
+            },
+            {
+                "productCode": "FFH-46574",
+                "description": "Autonomous car",
+                "price": 3399.95,
+                "amount": 3
+            }
+        ]
+    }
+}
