@@ -1,0 +1,17 @@
+spring:
+  profiles:
+    include:
+      - "default"
+
+logging:
+  level:
+    org.boip.demo: DEBUG
+
+server:
+  port: 9090
+
+management:
+  endpoint:
+    logfile:
+      external-file: logs/demo.log"
+

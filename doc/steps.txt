@@ -1,0 +1,49 @@
+demo setup:
+rest-interface op een database
+
+create project folder
+
+SPRING INITIALIZR
+http://start.spring.io/
+download => demo.zip
+unpzip
+copy to project folder:
+- src/*
+- pom.xml
+- .gitignore
+
+import project folder as project in intellij
+run app -> http://localhost:8080 => errorpage == success!
+http://localhost:8080/actuator/health => status:UP
+
+git branch: 02-database
+- add spring profile local (VM Options: -Dspring.profiles.active=local)
+- add logfile
+- configure: context-path, server-port, online logfile
+
+http://localhost:9090/demo/actuator/health
+
+database
+h2, in-memory for lokaal draaien en junit tests
+db2 voor (O)TAP
+
+liquibase
+voor het automatisch opzetten van database struktuur
+en eventueel vullen.
+
+jpa struktuur in java
+- entities
+- repository
+- manager
+- storage-service
+
+Opbouw rest interface
+- controller
+
+actuator
+
+swagger
+
+security
+
+
