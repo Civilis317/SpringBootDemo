@@ -13,5 +13,5 @@ server:
 management:
   endpoint:
     logfile:
-      external-file: logs/demo.log"
+      external-file: "logs/demo.log"
 
