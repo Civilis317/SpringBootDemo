@@ -35,4 +35,9 @@ public class StorageService {
         OrderEntity entity = manager.findById(id).orElseThrow(() -> new EntityNotFoundException("Record not found for id: " + id));
         return OrderConverter.convertEntityToOrder(entity);
     }
+
+    public Order save(Order order) {
+        OrderEntity savedEntity = manager.save(OrderConverter.convertOrderToEntity(order));
+        return OrderConverter.convertEntityToOrder(savedEntity);
+    }
 }

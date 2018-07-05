@@ -24,5 +24,9 @@ public class OrderManager {
         return repository.findById(id);
     }
 
+    public OrderEntity save(OrderEntity orderEntity) {
+        return repository.save(orderEntity);
+    }
+
 
 }
