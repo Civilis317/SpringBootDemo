@@ -22,6 +22,7 @@ git branch: 02-database
 - configure: context-path, server-port, online logfile
 
 http://localhost:9090/demo/actuator/health
+http://localhost:9090/demo/actuator/logfile
 
 database
 h2, in-memory for lokaal draaien en junit tests
