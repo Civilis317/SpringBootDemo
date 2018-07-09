@@ -30,6 +30,9 @@ public class CrudTest extends AbstractBaseTest {
         ResponseEntity<OrderResponse> listResponse = getRestTemplate().exchange(assembleGetListUrl(randomServerPort), HttpMethod.GET, new HttpEntity<String>(getHeaders()), OrderResponse.class);
         boolean test = HttpStatus.OK.equals(listResponse.getStatusCode());
         Assert.isTrue(test, "get list failed");
+        if (test) {
+            logResponse("getList()", listResponse.getBody());
+        }
     }
 
     @Test
@@ -39,13 +42,26 @@ public class CrudTest extends AbstractBaseTest {
         ResponseEntity<OrderResponse> createResponse = getRestTemplate().exchange(assembleCreateUrl(randomServerPort), HttpMethod.POST, createEntity, OrderResponse.class);
         boolean test = HttpStatus.OK.equals(createResponse.getStatusCode());
         Assert.isTrue(test, "Create record failed");
+        if (test) {
+            logResponse("createRecord()", createResponse.getBody());
+        }
 
         // select new record
         if (test) {
             Long orderId = createResponse.getBody().getOrders().get(0).getId();
             ResponseEntity<OrderResponse> getResponse = getRestTemplate().exchange(assembleGetUrl(randomServerPort) + orderId, HttpMethod.GET, new HttpEntity<String>(getHeaders()), OrderResponse.class);
             test = HttpStatus.OK.equals(getResponse.getStatusCode());
+            if (test) {
+                logResponse("retrieveRecord()", getResponse.getBody());
+            }
 
         }
+    }
+
+    private void logResponse(String testName, OrderResponse response) {
+        logger.info("Test: {}", testName);
+        response.getOrders().stream().forEach(o -> {
+            logger.info("Order: id={}, desc={}, emp={}, cust={}, details={}", o.getId(), o.getDescription(), o.getEmployee(), o.getCustomer(), o.getOrderDetails().size());
+        });
     }
 }
