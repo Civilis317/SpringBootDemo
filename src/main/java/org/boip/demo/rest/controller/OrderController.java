@@ -1,8 +1,9 @@
 package org.boip.demo.rest.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.boip.demo.rest.io.OrderRequest;
 import org.boip.demo.rest.io.OrderResponse;
-import org.boip.demo.rest.model.Order;
 import org.boip.demo.storage.StorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/api/order")
+@Api(value = "Orders Api", description = "REST Api for order maintenance")
 public class OrderController extends AbstractController {
     private static final Logger logger = LoggerFactory.getLogger(StorageService.class);
 
@@ -21,6 +23,7 @@ public class OrderController extends AbstractController {
         this.storageService = storageService;
     }
 
+    @ApiOperation(value = "Retrieve a list of all order records")
     @GetMapping(value = "/list")
     public @ResponseBody
     OrderResponse getOrderList() {
@@ -29,6 +32,7 @@ public class OrderController extends AbstractController {
         return response;
     }
 
+    @ApiOperation(value = "Retrieve an order by id")
     @GetMapping(value = "/get/{id}")
     public @ResponseBody
     OrderResponse getOrder(@PathVariable(name = "id") Long id) {
@@ -38,6 +42,7 @@ public class OrderController extends AbstractController {
         return response;
     }
 
+    @ApiOperation(value = "Create a new order")
     @PostMapping(value = "/create")
     public @ResponseBody OrderResponse createOrder(@RequestBody OrderRequest request) {
         // todo: validate request, order not null etc
