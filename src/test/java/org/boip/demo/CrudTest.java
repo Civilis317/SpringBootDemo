@@ -36,26 +36,30 @@ public class CrudTest extends AbstractBaseTest {
     }
 
     @Test
-    public void insertAndRetrieve() {
-        // create record
-        HttpEntity<OrderRequest> createEntity = new HttpEntity<OrderRequest>(getOrderRequest(), getHeaders());
-        ResponseEntity<OrderResponse> createResponse = getRestTemplate().exchange(assembleCreateUrl(randomServerPort), HttpMethod.POST, createEntity, OrderResponse.class);
+    public void createOrder() {
+        ResponseEntity<OrderResponse> createResponse = insertOrder();
         boolean test = HttpStatus.OK.equals(createResponse.getStatusCode());
         Assert.isTrue(test, "Create record failed");
         if (test) {
-            logResponse("createRecord()", createResponse.getBody());
+            logResponse("createOrder()", createResponse.getBody());
         }
+    }
 
-        // select new record
+
+    @Test
+    public void getOrderById() {
+        ResponseEntity<OrderResponse> createResponse = insertOrder();
+        Long orderId = createResponse.getBody().getOrders().get(0).getId();
+        ResponseEntity<OrderResponse> getResponse = getRestTemplate().exchange(assembleGetUrl(randomServerPort) + orderId, HttpMethod.GET, new HttpEntity<String>(getHeaders()), OrderResponse.class);
+        boolean test = HttpStatus.OK.equals(getResponse.getStatusCode());
         if (test) {
-            Long orderId = createResponse.getBody().getOrders().get(0).getId();
-            ResponseEntity<OrderResponse> getResponse = getRestTemplate().exchange(assembleGetUrl(randomServerPort) + orderId, HttpMethod.GET, new HttpEntity<String>(getHeaders()), OrderResponse.class);
-            test = HttpStatus.OK.equals(getResponse.getStatusCode());
-            if (test) {
-                logResponse("retrieveRecord()", getResponse.getBody());
-            }
-
+            logResponse("getOrderById()", getResponse.getBody());
         }
+    }
+
+    private ResponseEntity<OrderResponse> insertOrder() {
+        HttpEntity<OrderRequest> createEntity = new HttpEntity<OrderRequest>(getOrderRequest(), getHeaders());
+        return getRestTemplate().exchange(assembleCreateUrl(randomServerPort), HttpMethod.POST, createEntity, OrderResponse.class);
     }
 
     private void logResponse(String testName, OrderResponse response) {
