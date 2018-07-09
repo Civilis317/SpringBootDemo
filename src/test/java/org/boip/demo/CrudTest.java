@@ -1,0 +1,51 @@
+package org.boip.demo;
+
+import org.boip.demo.rest.io.OrderRequest;
+import org.boip.demo.rest.io.OrderResponse;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.Assert;
+
+@ActiveProfiles("local")
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class CrudTest extends AbstractBaseTest {
+    private static final Logger logger = LoggerFactory.getLogger(CrudTest.class);
+
+    @LocalServerPort
+    int randomServerPort;
+
+    @Test
+    public void getList() {
+        ResponseEntity<OrderResponse> listResponse = getRestTemplate().exchange(assembleGetListUrl(randomServerPort), HttpMethod.GET, new HttpEntity<String>(getHeaders()), OrderResponse.class);
+        boolean test = HttpStatus.OK.equals(listResponse.getStatusCode());
+        Assert.isTrue(test, "get list failed");
+    }
+
+    @Test
+    public void insertAndRetrieve() {
+        // create record
+        HttpEntity<OrderRequest> createEntity = new HttpEntity<OrderRequest>(getOrderRequest(), getHeaders());
+        ResponseEntity<OrderResponse> createResponse = getRestTemplate().exchange(assembleCreateUrl(randomServerPort), HttpMethod.POST, createEntity, OrderResponse.class);
+        boolean test = HttpStatus.OK.equals(createResponse.getStatusCode());
+        Assert.isTrue(test, "Create record failed");
+
+        // select new record
+        if (test) {
+            Long orderId = createResponse.getBody().getOrders().get(0).getId();
+            ResponseEntity<OrderResponse> getResponse = getRestTemplate().exchange(assembleGetUrl(randomServerPort) + orderId, HttpMethod.GET, new HttpEntity<String>(getHeaders()), OrderResponse.class);
+            test = HttpStatus.OK.equals(getResponse.getStatusCode());
+
+        }
+    }
+}
