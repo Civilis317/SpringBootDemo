@@ -45,7 +45,6 @@ public class CrudTest extends AbstractBaseTest {
         }
     }
 
-
     @Test
     public void getOrderById() {
         ResponseEntity<OrderResponse> createResponse = insertOrder();

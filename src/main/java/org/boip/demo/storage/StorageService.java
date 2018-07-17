@@ -18,7 +18,6 @@ public class StorageService {
 
     private final OrderManager manager;
 
-
     public StorageService(OrderManager manager) {
         this.manager = manager;
     }

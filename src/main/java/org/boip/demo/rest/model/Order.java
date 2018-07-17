@@ -10,6 +10,7 @@ public class Order {
     private Date date;
     private String employee;
     private String customer;
+    private Double price;
 
     private List<OrderDetail> orderDetails = new ArrayList<>(128);
 
@@ -60,5 +61,13 @@ public class Order {
 
     public void setOrderDetails(List<OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

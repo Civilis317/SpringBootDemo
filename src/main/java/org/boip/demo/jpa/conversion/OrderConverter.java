@@ -22,12 +22,14 @@ public class OrderConverter {
 
     public static Order convertEntityToOrder(OrderEntity entity) {
         Order order = new Order();
+        order.setPrice(Double.valueOf("0"));
         order.setId(entity.getId());
         order.setDescription(entity.getName());
         order.setDate(entity.getOrderDate());
         order.setEmployee(entity.getEmployee());
         order.setCustomer(entity.getCustomer());
         entity.getDetailList().stream().forEach(de -> {
+            order.setPrice(order.getPrice() + (de.getAmount() * de.getPrice()));
             order.getOrderDetails().add(convertEntityToDetail(de));
         });
         return order;
