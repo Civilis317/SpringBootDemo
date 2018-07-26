@@ -2,7 +2,6 @@ package org.boip.demo.rest.controller;
 
 import org.boip.demo.rest.io.OrderRequest;
 import org.boip.demo.rest.io.OrderResponse;
-import org.boip.demo.rest.model.Order;
 import org.boip.demo.storage.StorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +38,8 @@ public class OrderController extends AbstractController {
     }
 
     @PostMapping(value = "/create")
-    public @ResponseBody OrderResponse createOrder(@RequestBody OrderRequest request) {
+    public @ResponseBody
+    OrderResponse createOrder(@RequestBody OrderRequest request) {
         // todo: validate request, order not null etc
         request.getOrder().setDate(new Date());
         OrderResponse response = new OrderResponse();

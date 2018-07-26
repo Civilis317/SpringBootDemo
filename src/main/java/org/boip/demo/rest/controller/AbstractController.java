@@ -11,7 +11,6 @@ import java.io.IOException;
 
 public class AbstractController {
 
-
     @ExceptionHandler
     protected void handleIllegalArgumentException(IllegalArgumentException e, HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.BAD_REQUEST.value(), "The request was not valid");
