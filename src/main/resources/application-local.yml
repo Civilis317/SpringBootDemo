@@ -1,4 +1,8 @@
 spring:
+  security:
+    user:
+      name: "local-user"
+      password: "welcome1"
   profiles:
     include:
       - "default"

@@ -1,12 +1,16 @@
 package org.boip.demo;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.boip.demo.rest.io.OrderRequest;
 import org.boip.demo.rest.model.Order;
 import org.boip.demo.rest.model.OrderDetail;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
+
+import java.nio.charset.Charset;
 
 public class AbstractBaseTest {
     private static final String PROTOCOL = "http://";
@@ -15,6 +19,18 @@ public class AbstractBaseTest {
     private static final String GET_LIST_PATH = "/api/order/list";
     private static final String GET_PATH = "/api/order/get/";
     private static final String CREATE_PATH = "/api/order/create";
+
+    @Value("${spring.security.user.name}")
+    private String username;
+
+    @Value("${spring.security.user.password}")
+    private String password;
+
+    private String getBasicAuthHeaderValue() {
+        String auth = username + ":" + password;
+        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
+        return "Basic " + new String(encodedAuth);
+    }
 
     protected RestTemplate getRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
@@ -25,6 +41,7 @@ public class AbstractBaseTest {
     protected HttpHeaders getHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Authorization", getBasicAuthHeaderValue());
         return headers;
     }
 

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StorageService {
@@ -24,9 +25,16 @@ public class StorageService {
 
     public List<Order> getAllOrders() {
         List<Order> orderList = new ArrayList<>(1024);
-        manager.getAllOrders().forEach(oe -> {
+
+        manager.getAllOrders().map(oe -> {
             orderList.add(OrderConverter.convertEntityToOrder(oe));
-        });
+            return oe;
+        }).collect(Collectors.toList());
+
+        // this calls forEach before collecting all the elements of the stream
+//        manager.getAllOrders().forEach(oe -> {
+//            orderList.add(OrderConverter.convertEntityToOrder(oe));
+//        });
         return orderList;
     }
 

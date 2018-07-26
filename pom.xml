@@ -40,6 +40,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- for basic auth -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
 		<!-- 02-database -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
