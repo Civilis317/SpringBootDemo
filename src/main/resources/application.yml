@@ -5,7 +5,7 @@ app:
 logging:
   level:
     ROOT: INFO
-    org.springframework: INFO
+    org.springframework: TRACE
     org.boip.demo: INFO
 
 server:

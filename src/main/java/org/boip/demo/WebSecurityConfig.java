@@ -12,13 +12,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/h2-console/**","/v2/api-docs/**", "/configuration/ui", "/swagger-resources/**", "/configuration/security", "/swagger-ui.html", "/webjars/**");
+        web.ignoring().antMatchers("/h2-console/**", "/v2/api-docs/**", "/configuration/ui", "/swagger-resources/**", "/configuration/security", "/swagger-ui.html", "/webjars/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
-                .anyRequest().authenticated().and()
-                .httpBasic();
+        http
+                .httpBasic()
+                .and()
+                .authorizeRequests()
+                .anyRequest().authenticated();
+
     }
 }
